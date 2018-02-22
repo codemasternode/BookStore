@@ -7,7 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,13 +31,18 @@ public class ReeesstApplication implements CommandLineRunner{
 		SpringApplication.run(ReeesstApplication.class, args);
 	}
 
+	@Bean
+	public BCryptPasswordEncoder bCryptPasswordEncoder(){
+		return new BCryptPasswordEncoder();
+	}
+
 	@Override
 	public void run(String... strings) throws Exception {
 		mongoTemplate.getDb().dropDatabase();
 		String st1 = "Lorem ipsum dolor sit amet enim. Etiam ullamcorper. Suspendisse a pellentesque dui, non felis. Maecenas malesuada elit lectus felis, malesuada ultricies. Curabitur et ligula. Ut molestie a, ultricies porta urna. Vestibulum commodo volutpat a, convallis ac, laoreet enim. Phasellus fermentum in, dolor. Pellentesque facilisis. Nulla imperdiet sit amet magna. Vestibulum dapibus, mauris nec malesuada fames ac turpis velit, rhoncus eu, luctus et interdum adipiscing wisi.  ";
 		String st2 = "Lorem ipsum dolor sit amet enim. Etiam ullamcorper. Suspendisse a pellentesque dui, non felis. Maecenas malesuada elit lectus felis, malesuada ultricies. Curabitur et ligula. Ut molestie a, ultricies porta urna. Vestibulum commodo volutpat a, convallis ac, laoreet enim. Phasellus fermentum in, dolor. Pellentesque facilisis. Nulla imperdiet sit amet magna. Vestibulum dapibus, mauris nec malesuada fames ac turpis velit, rhoncus eu, luctus et interdum adipiscing wisi. ";
-		User us1 = new User("Marcin","mar");
-		User us2 = new User("nap","mma");
+		User us1 = new User("Marcin","mar","mw@interia.pl");
+		User us2 = new User("nap","mma","kubicz@gmail.com");
 		userRepo.save(us1);
 		userRepo.save(us2);
 		Comment com1 = new Comment(us1,"Super partia", Mark.Good);
@@ -47,4 +55,5 @@ public class ReeesstApplication implements CommandLineRunner{
 		bookRepo.save(book);
 		bookRepo.save(book2);
 	}
+
 }
